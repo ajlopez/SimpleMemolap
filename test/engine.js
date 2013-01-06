@@ -12,7 +12,7 @@ assert.equal(typeof simplememolap.createEngine, 'function');
 var engine = simplememolap.createEngine();
 assert.ok(engine);
 
-// Create dimensions
+// Dimensions
 
 var dimcountry = engine.createDimension('country');
 assert.ok(dimcountry);
@@ -31,3 +31,7 @@ assert.ok(dimensions);
 assert.ok(dimensions.country);
 assert.ok(dimensions.category);
 assert.ok(dimensions.product);
+
+assert.equal(engine.getDimension('country'), dimensions.country);
+assert.equal(engine.getDimension('category'), dimensions.category);
+assert.equal(engine.getDimension('product'), dimensions.product);
