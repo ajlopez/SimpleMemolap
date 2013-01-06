@@ -20,11 +20,13 @@ assert.ok(tuple.country);
 assert.ok(tuple.category);
 assert.ok(tuple.product);
 
-var tuple = engine.addTuple({ country: 'Argentina', category: 'Beverages', product: 'Coffee' });
+var tuple = engine.addTuple({ country: 'Argentina', category: 'Beverages', product: 'Coffee', data: 100 });
 assert.ok(tuple);
 assert.ok(tuple.country);
 assert.ok(tuple.category);
 assert.ok(tuple.product);
+assert.ok(tuple.data);
+assert.equal(tuple.data, 100);
 
 var tuple = engine.addTuple({ country: 'Chile', category: 'Beverages', product: 'Coke', notadimension: 123 });
 assert.ok(tuple);
