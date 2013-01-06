@@ -71,3 +71,38 @@ assert.ok(dimensions.product);
 assert.ok(dimensions.product.values);
 assert.equal(dimensions.product.values.length, 100);
 
+// Count Country 1 tuples
+
+var count = 0;
+
+engine.forEachTuple(
+    function (tuple) { return tuple.country === 'Country 1'; },
+    function (tuple) { count++; }
+);
+
+assert.equal(count, 5000);
+
+// Count Country 1 tuples by Category
+
+var map = [];
+
+engine.forEachTuple(
+    function (tuple) { return tuple.country === 'Country 1'; },
+    function (tuple) {
+        var category = tuple.category;
+        if (!category)
+            return;
+        if (!map[category])
+            map[category] = 0;
+        map[category]++;
+    }
+);
+
+var count = 0;
+
+for (var name in map) {
+    assert.equal(map[name], 100);
+    count++;
+}
+
+assert.equal(count, 50);
