@@ -50,11 +50,12 @@ assert.ok(tuple.country);
 assert.ok(tuple.category);
 assert.ok(tuple.product);
 
-var tuple = engine.addTuple({ country: 'Chile', category: 'Beverages', product: 'Coke' });
+var tuple = engine.addTuple({ country: 'Chile', category: 'Beverages', product: 'Coke', notadimension: 123 });
 assert.ok(tuple);
 assert.ok(tuple.country);
 assert.ok(tuple.category);
 assert.ok(tuple.product);
+assert.equal(tuple.notadimension, undefined);
 
 assert.ok(dimensions.country.values);
 assert.ok(dimensions.category.values);
@@ -71,3 +72,16 @@ assert.equal(dimensions.product.values.length, 3);
 assert.ok(dimensions.product.values.indexOf('Beer') >= 0);
 assert.ok(dimensions.product.values.indexOf('Coffee') >= 0);
 assert.ok(dimensions.product.values.indexOf('Coke') >= 0);
+
+// for each tuple
+
+var count = 0;
+
+engine.forEachTuple(function (tuple) { count ++; });
+assert.equal(count, 3);
+
+// for each with filter
+
+var count = 0;
+engine.forEachTuple(function (tuple) { return tuple.country === 'Argentina'; }, function (tuple) { count ++; });
+assert.equal(count, 2);
