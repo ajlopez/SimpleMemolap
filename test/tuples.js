@@ -61,3 +61,17 @@ assert.equal(count, 3);
 var count = 0;
 engine.forEachTuple(function (tuple) { return tuple.country === 'Argentina'; }, function (tuple) { count ++; });
 assert.equal(count, 2);
+
+// for each with tuple filter by example
+
+var count = 0;
+engine.forEachTuple({ country: 'Argentina' }, function (tuple) { count ++; });
+assert.equal(count, 2);
+
+var count = 0;
+engine.forEachTuple({ category: 'Beverages' }, function (tuple) { count ++; });
+assert.equal(count, 3);
+
+var count = 0;
+engine.forEachTuple({ country: 'Chile', category: 'Beverages' }, function (tuple) { count ++; });
+assert.equal(count, 1);
