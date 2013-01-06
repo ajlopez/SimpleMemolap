@@ -35,3 +35,39 @@ assert.ok(dimensions.product);
 assert.equal(engine.getDimension('country'), dimensions.country);
 assert.equal(engine.getDimension('category'), dimensions.category);
 assert.equal(engine.getDimension('product'), dimensions.product);
+
+// Add tuple
+
+var tuple = engine.addTuple({ country: 'Argentina', category: 'Beverages', product: 'Beer' });
+assert.ok(tuple);
+assert.ok(tuple.country);
+assert.ok(tuple.category);
+assert.ok(tuple.product);
+
+var tuple = engine.addTuple({ country: 'Argentina', category: 'Beverages', product: 'Coffee' });
+assert.ok(tuple);
+assert.ok(tuple.country);
+assert.ok(tuple.category);
+assert.ok(tuple.product);
+
+var tuple = engine.addTuple({ country: 'Chile', category: 'Beverages', product: 'Coke' });
+assert.ok(tuple);
+assert.ok(tuple.country);
+assert.ok(tuple.category);
+assert.ok(tuple.product);
+
+assert.ok(dimensions.country.values);
+assert.ok(dimensions.category.values);
+assert.ok(dimensions.product.values);
+
+assert.equal(dimensions.country.values.length, 2);
+assert.ok(dimensions.country.values.indexOf('Argentina') >= 0);
+assert.ok(dimensions.country.values.indexOf('Chile') >= 0);
+
+assert.equal(dimensions.category.values.length, 1);
+assert.ok(dimensions.category.values.indexOf('Beverages') >= 0);
+
+assert.equal(dimensions.product.values.length, 3);
+assert.ok(dimensions.product.values.indexOf('Beer') >= 0);
+assert.ok(dimensions.product.values.indexOf('Coffee') >= 0);
+assert.ok(dimensions.product.values.indexOf('Coke') >= 0);
