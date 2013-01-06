@@ -1,0 +1,29 @@
+
+model = {
+    dimensions: [ 
+        { name: 'country', title: 'Countries', set: 'countries' },
+        { name: 'category', title: 'Categories' },
+        { name: 'product', title: 'Products', set: 'products' }
+    ]
+    ,
+    sets: {
+        countries: [
+            "Argentina",
+            "Chile",
+            "Uruguay",
+            "Paraguay"
+        ]
+        ,
+        products: [
+            { name: "Chai",  category: "Beverages" },
+            { name: "Chang", category: "Beverages" },
+            { name: "Aniseed Syrup", category: "Beverages" },
+            { name: "Chef Anton's Cajun Seasoning", category: "Condiments" },
+            { name: "Chef Anton's Gumbo Mix", category: "Condiments" },
+            { name: "Grandma's Boysenberry Spread", category: "Confections" },
+            { name: "Uncle Bob's Organic Dried Pears", category: "Confections" },    
+            { name: "Northwoods Cranberry Sauce", category: "Confections" }
+        ]
+    }
+}
+

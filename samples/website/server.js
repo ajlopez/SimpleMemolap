@@ -60,6 +60,7 @@ app.use(simpleweb.body());
 app.use(app.router);
 app.use(simpleweb.static(path.join(__dirname, 'public')));
 app.get('/', require('./pages/home'));
+app.get('/dimension', require('./pages/dimension'));
 
 var server = http.createServer(app).listen(8000);
 
