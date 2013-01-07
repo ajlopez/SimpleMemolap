@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "simpleweb": "0.0.1"
+    "simpleweb": "0.0.1",
+    "simpletpl": "0.0.1"
   }
 }
