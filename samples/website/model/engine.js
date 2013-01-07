@@ -14,6 +14,7 @@ model.dimensions.forEach(function (dim) {
     var dimension = engine.createDimension(dim.name);
     dimension.title = dim.title;
     dimension.set = dim.set;
+    dimension.entity = dim.entity;
     dimensions.push(dimension);
 });
 
@@ -21,7 +22,15 @@ var ndimensions = dimensions.length;
 
 function generateTuples(ndim, obj) {
     if (ndim >= ndimensions) {
-        engine.addTuple(obj);
+        for (var k = 1; k <= 100; k++) {
+            obj.data = {
+                quantity: Math.floor(Math.random() * 10),
+                price: Math.floor(Math.random() * 10)
+            };
+
+            engine.addTuple(obj);
+        }
+
         return;
     }
 
@@ -45,7 +54,5 @@ function generateTuples(ndim, obj) {
 }
 
 generateTuples(0, { });
-
-engine.forEachTuple(function (tuple) { console.dir(tuple); });
 
 module.exports = exports = engine;

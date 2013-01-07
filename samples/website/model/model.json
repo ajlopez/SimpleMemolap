@@ -1,9 +1,9 @@
 
 model = {
     dimensions: [ 
-        { name: 'country', title: 'Countries', set: 'countries' },
-        { name: 'category', title: 'Categories' },
-        { name: 'product', title: 'Products', set: 'products' }
+        { name: 'country', title: 'Countries', set: 'countries', entity: 'Country' },
+        { name: 'category', title: 'Categories', entity: 'Category' },
+        { name: 'product', title: 'Products', set: 'products', entity: 'Product' }
     ]
     ,
     sets: {

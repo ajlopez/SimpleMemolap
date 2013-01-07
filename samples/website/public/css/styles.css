@@ -22,3 +22,11 @@
 .footer {
     margin: 10px;
 }
+
+.dimensions td, th {
+    padding: 5px;
+}
+
+.result td, th {
+    padding: 5px;
+}
