@@ -1,17 +1,16 @@
 
-var sm = require('../'),
-    assert = require('assert');
+var sm = require('../');
 
 var engine;
 
 exports["createEngine defined"] = function (test) {
-    assert.ok(sm.createEngine);
-    assert.equal(typeof sm.createEngine, 'function');
+    test.ok(sm.createEngine);
+    test.equal(typeof sm.createEngine, 'function');
 };
 
 exports["create engine"] = function (test) {
     engine = sm.createEngine();
-    assert.ok(engine);
+    test.ok(engine);
 };
 
 exports["dimensions"] = function (test) {
