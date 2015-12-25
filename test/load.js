@@ -1,8 +1,7 @@
 
-var simplememolap = require('../'),
-    assert = require('assert');
+var sm = require('../');
 
-var engine = simplememolap.createEngine();
+var engine = sm.createEngine();
 
 // Dimensions
 
@@ -13,7 +12,7 @@ var dimproduct = engine.createDimension('product');
 var dimensions = engine.getDimensions();
 
 function generateTuples(ncountries, ncategories, nproducts) {
-    var engine = simplememolap.createEngine();
+    var engine = sm.createEngine();
 
     // Dimensions
 
@@ -35,74 +34,79 @@ function generateTuples(ncountries, ncategories, nproducts) {
     return engine;
 }
 
-// Generate and count 1000 tuples
+exports['generate and count 1000 tuples'] = function (test) {
+    var engine = generateTuples(10, 10, 10);
+    var count = 0;
 
-var engine = generateTuples(10, 10, 10);
-var count = 0;
+    engine.forEachTuple(function (tuple) { count ++; });
+    test.equal(count, 1000);
+};
 
-engine.forEachTuple(function (tuple) { count ++; });
-assert.equal(count, 1000);
+exports['generate and count 100000 tuples'] = function (test) {
+    var engine = generateTuples(100, 10, 100);
+    var count = 0;
 
-// Generate and count 100000 tuples
+    engine.forEachTuple(function (tuple) { count ++; });
+    test.equal(count, 100000);
+};
 
-var engine = generateTuples(100, 10, 100);
-var count = 0;
+exports['generate and count 500000 tuples'] = function (test) {
+    var engine = generateTuples(100, 50, 100);
+    var count = 0;
 
-engine.forEachTuple(function (tuple) { count ++; });
-assert.equal(count, 100000);
+    engine.forEachTuple(function (tuple) { count ++; });
+    test.equal(count, 500000);
 
-// Generate and count 500000 tuples
+    var dimensions = engine.getDimensions();
 
-var engine = generateTuples(100, 50, 100);
-var count = 0;
+    test.ok(dimensions);
+    test.ok(dimensions.country);
+    test.ok(dimensions.country.values);
+    test.equal(dimensions.country.values.length, 100);
+    test.ok(dimensions.category);
+    test.ok(dimensions.category.values);
+    test.equal(dimensions.category.values.length, 50);
+    test.ok(dimensions.product);
+    test.ok(dimensions.product.values);
+    test.equal(dimensions.product.values.length, 100);
+};
 
-engine.forEachTuple(function (tuple) { count ++; });
-assert.equal(count, 500000);
+exports['count country 1 tuples'] = function (test) {
+    var engine = generateTuples(100, 50, 100);
 
-var dimensions = engine.getDimensions();
-assert.ok(dimensions);
-assert.ok(dimensions.country);
-assert.ok(dimensions.country.values);
-assert.equal(dimensions.country.values.length, 100);
-assert.ok(dimensions.category);
-assert.ok(dimensions.category.values);
-assert.equal(dimensions.category.values.length, 50);
-assert.ok(dimensions.product);
-assert.ok(dimensions.product.values);
-assert.equal(dimensions.product.values.length, 100);
+    var count = 0;
 
-// Count Country 1 tuples
+    engine.forEachTuple(
+        function (tuple) { return tuple.country === 'Country 1'; },
+        function (tuple) { count++; }
+    );
 
-var count = 0;
+    test.equal(count, 5000);
+};
 
-engine.forEachTuple(
-    function (tuple) { return tuple.country === 'Country 1'; },
-    function (tuple) { count++; }
-);
+exports['count country 1 tuples by category'] = function (test) {
+    var engine = generateTuples(100, 50, 100);
 
-assert.equal(count, 5000);
+    var map = [];
 
-// Count Country 1 tuples by Category
+    engine.forEachTuple(
+        function (tuple) { return tuple.country === 'Country 1'; },
+        function (tuple) {
+            var category = tuple.category;
+            if (!category)
+                return;
+            if (!map[category])
+                map[category] = 0;
+            map[category]++;
+        }
+    );
 
-var map = [];
+    var count = 0;
 
-engine.forEachTuple(
-    function (tuple) { return tuple.country === 'Country 1'; },
-    function (tuple) {
-        var category = tuple.category;
-        if (!category)
-            return;
-        if (!map[category])
-            map[category] = 0;
-        map[category]++;
+    for (var name in map) {
+        test.equal(map[name], 100);
+        count++;
     }
-);
 
-var count = 0;
-
-for (var name in map) {
-    assert.equal(map[name], 100);
-    count++;
-}
-
-assert.equal(count, 50);
+    test.equal(count, 50);
+};
