@@ -1,38 +1,42 @@
 
-var simplememolap = require('../'),
+var sm = require('../'),
     assert = require('assert');
 
-// createEngine defined
+var engine;
 
-assert.ok(simplememolap.createEngine);
-assert.equal(typeof simplememolap.createEngine, 'function');
+exports["createEngine defined"] = function (test) {
+    assert.ok(sm.createEngine);
+    assert.equal(typeof sm.createEngine, 'function');
+};
 
-// Create engine
+exports["create engine"] = function (test) {
+    engine = sm.createEngine();
+    assert.ok(engine);
+};
 
-var engine = simplememolap.createEngine();
-assert.ok(engine);
+exports["dimensions"] = function (test) {
+    var dimcountry = engine.createDimension('country');
+    test.ok(dimcountry);
+    test.equal(dimcountry.name, 'country');
 
-// Dimensions
+    var dimcategory = engine.createDimension('category');
+    test.ok(dimcategory);
+    test.equal(dimcategory.name, 'category');
 
-var dimcountry = engine.createDimension('country');
-assert.ok(dimcountry);
-assert.equal(dimcountry.name, 'country');
+    var dimproduct = engine.createDimension('product');
+    test.ok(dimproduct);
+    test.equal(dimproduct.name, 'product');
+};
 
-var dimcategory = engine.createDimension('category');
-assert.ok(dimcategory);
-assert.equal(dimcategory.name, 'category');
+exports["get dimensions"] = function (test) {
+    var dimensions = engine.getDimensions();
+    test.ok(dimensions);
+    test.ok(dimensions.country);
+    test.ok(dimensions.category);
+    test.ok(dimensions.product);
+    test.equal(engine.getDimension('country'), dimensions.country);
+    test.equal(engine.getDimension('category'), dimensions.category);
+    test.equal(engine.getDimension('product'), dimensions.product);
+};
 
-var dimproduct = engine.createDimension('product');
-assert.ok(dimproduct);
-assert.equal(dimproduct.name, 'product');
-
-var dimensions = engine.getDimensions();
-assert.ok(dimensions);
-assert.ok(dimensions.country);
-assert.ok(dimensions.category);
-assert.ok(dimensions.product);
-
-assert.equal(engine.getDimension('country'), dimensions.country);
-assert.equal(engine.getDimension('category'), dimensions.category);
-assert.equal(engine.getDimension('product'), dimensions.product);
 
