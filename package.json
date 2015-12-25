@@ -5,12 +5,13 @@
 , "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)"
 , "repository": { "type": "git", "url": "git://github.com/ajlopez/SimpleMemolap.git" }
 , "main": "./lib/simplememolap.js"
-, "engines": { "node": ">= 0.6.0 && < 0.9.0" }
+, "engines": { "node": ">= 0.10.0" }
 , "scripts": {
     "test": "node ./test.js"
   }
 , "dependencies": {
   }
 , "devDependencies": {
+    "simpleunit": "0.0.7"
   }
 }
