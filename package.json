@@ -7,7 +7,7 @@
 , "main": "./lib/simplememolap.js"
 , "engines": { "node": ">= 0.10.0" }
 , "scripts": {
-    "test": "node ./test.js"
+    "test": "simpleunit ./test -r"
   }
 , "dependencies": {
   }
