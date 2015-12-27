@@ -32,7 +32,6 @@ exports['retrieve values and data'] = function (test) {
     var info = {};
     
     store.info(0, info);
-    
     test.ok(info.array);
     test.equal(info.offset, 0);
     test.equal(info.data, "foo");
