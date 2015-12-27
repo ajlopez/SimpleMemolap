@@ -41,3 +41,22 @@ exports['retrieve values and data'] = function (test) {
     test.equal(info.array[1], 2);
     test.equal(info.array[2], 3);
 };
+
+exports['generates and retrieve 10000 sets of values and data'] = function (test) {
+    store = stores.store({ dimensions: 3 });
+    
+    for (var k = 0; k < 10000; k++) {
+        store.add([k, k+1, k+2], k);
+        test.equal(store.size(), k + 1);
+    }
+    var info = {};
+
+    for (var k = 0; k < 10000; k++) {
+        store.info(k, info);
+        test.ok(info.array);
+        test.equal(info.data, k);
+        test.equal(info.array[info.offset], k);
+        test.equal(info.array[info.offset + 1], k + 1);
+        test.equal(info.array[info.offset + 2], k + 2);
+    }
+};
