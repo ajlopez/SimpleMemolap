@@ -26,7 +26,7 @@ function generateTuples(ncountries, ncategories, nproducts) {
             obj.category = 'Category ' + j;
             for (var i = 1; i <= nproducts; i++) {
                 obj.product = 'Product ' + i;
-                engine.addTuple(obj);
+                engine.addTuple(obj, 1);
             }
         }
     }
@@ -34,25 +34,19 @@ function generateTuples(ncountries, ncategories, nproducts) {
     return engine;
 }
 
-exports['generate and count 1000 tuples'] = function (test) {
+exports['generate 1000 tuples'] = function (test) {
     var engine = generateTuples(10, 10, 10);
-    var count = 0;
-
-    engine.forEachTuple(function (tuple) { count ++; });
-    test.equal(count, 1000);
+    test.equal(engine.getSize(), 1000);
 };
 
-exports['generate and count 100000 tuples'] = function (test) {
+exports['generate 100000 tuples'] = function (test) {
     var engine = generateTuples(100, 10, 100);
-    var count = 0;
-
-    engine.forEachTuple(function (tuple) { count ++; });
-    test.equal(count, 100000);
+    test.equal(engine.getSize(), 100000);
 };
 
 exports['generate and count 500000 tuples'] = function (test) {
     var engine = generateTuples(100, 50, 100);
-    var count = 0;
+    test.equal(engine.getSize(), 500000);
 
     engine.forEachTuple(function (tuple) { count ++; });
     test.equal(count, 500000);
@@ -60,15 +54,15 @@ exports['generate and count 500000 tuples'] = function (test) {
     var dimensions = engine.getDimensions();
 
     test.ok(dimensions);
-    test.ok(dimensions.country);
-    test.ok(dimensions.country.values);
-    test.equal(dimensions.country.values.length, 100);
-    test.ok(dimensions.category);
-    test.ok(dimensions.category.values);
-    test.equal(dimensions.category.values.length, 50);
-    test.ok(dimensions.product);
-    test.ok(dimensions.product.values);
-    test.equal(dimensions.product.values.length, 100);
+    test.ok(dimensions[0]);
+    test.ok(dimensions[0].values);
+    test.equal(dimensions[0].values.length, 101);
+    test.ok(dimensions[1]);
+    test.ok(dimensions[1].values);
+    test.equal(dimensions[1].values.length, 51);
+    test.ok(dimensions[2]);
+    test.ok(dimensions[2].values);
+    test.equal(dimensions[2].values.length, 101);
 };
 
 exports['count country 1 tuples'] = function (test) {
