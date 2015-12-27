@@ -28,4 +28,16 @@ exports['add values and data'] = function (test) {
     test.equal(store.size(), 1);
 };
 
-
+exports['retrieve values and data'] = function (test) {
+    var info = {};
+    
+    store.info(0, info);
+    
+    test.ok(info.array);
+    test.equal(info.offset, 0);
+    test.equal(info.data, "foo");
+    
+    test.equal(info.array[0], 1);
+    test.equal(info.array[1], 2);
+    test.equal(info.array[2], 3);
+};
