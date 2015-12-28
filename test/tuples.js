@@ -1,85 +1,67 @@
 
 var sm = require('../');
 
-var engine = sm.createEngine();
+var engine = sm.engine();
 
 // Dimensions
 
-var dimcountry = engine.createDimension('country');
-var dimcategory = engine.createDimension('category');
-var dimproduct = engine.createDimension('product');
+var dimcountry = engine.dimension('country');
+var dimcategory = engine.dimension('category');
+var dimproduct = engine.dimension('product');
 
-var dimensions = engine.getDimensions();
+var dimensions = engine.dimensions();
 
 exports['add tuple'] = function (test) {
-    var tuple = engine.addTuple({ country: 'Argentina', category: 'Beverages', product: 'Beer' });
-    test.ok(tuple);
-    test.ok(tuple.country);
-    test.ok(tuple.category);
-    test.ok(tuple.product);
+    engine.add({ country: 'Argentina', category: 'Beverages', product: 'Beer' });
+    test.equal(engine.size(), 1);
 };
 
 exports['add another tuple'] = function (test) {
-    var tuple = engine.addTuple({ country: 'Argentina', category: 'Beverages', product: 'Coffee', data: 100 });
-    test.ok(tuple);
-    test.ok(tuple.country);
-    test.ok(tuple.category);
-    test.ok(tuple.product);
-    test.ok(tuple.data);
-    test.equal(tuple.data, 100);
+    var tuple = engine.add({ country: 'Argentina', category: 'Beverages', product: 'Coffee', data: 100 });
+    test.equal(engine.size(), 2);
 };
 
 exports['add third tuple'] = function (test) {
-    var tuple = engine.addTuple({ country: 'Chile', category: 'Beverages', product: 'Coke', notadimension: 123 });
-    test.ok(tuple);
-    test.ok(tuple.country);
-    test.ok(tuple.category);
-    test.ok(tuple.product);
-    test.equal(tuple.notadimension, undefined);
+    var tuple = engine.add({ country: 'Chile', category: 'Beverages', product: 'Coke', notadimension: 123 });
+    test.equal(engine.size(), 3);
 };
 
 exports['dimensions values'] = function (test) {
-    test.ok(dimensions.country.values);
-    test.ok(dimensions.category.values);
-    test.ok(dimensions.product.values);
+    test.ok(dimcountry.values);
+    test.ok(dimcategory.values);
+    test.ok(dimproduct.values);
 
-    test.equal(dimensions.country.values.length, 2);
-    test.ok(dimensions.country.values.indexOf('Argentina') >= 0);
-    test.ok(dimensions.country.values.indexOf('Chile') >= 0);
+    test.equal(dimcountry.values.length, 3);
+    test.ok(dimcountry.values.indexOf('Argentina') >= 0);
+    test.ok(dimcountry.values.indexOf('Chile') >= 0);
 
-    test.equal(dimensions.category.values.length, 1);
-    test.ok(dimensions.category.values.indexOf('Beverages') >= 0);
+    test.equal(dimcategory.values.length, 2);
+    test.ok(dimcategory.values.indexOf('Beverages') >= 0);
 
-    test.equal(dimensions.product.values.length, 3);
-    test.ok(dimensions.product.values.indexOf('Beer') >= 0);
-    test.ok(dimensions.product.values.indexOf('Coffee') >= 0);
-    test.ok(dimensions.product.values.indexOf('Coke') >= 0);
+    test.equal(dimproduct.values.length, 4);
+    test.ok(dimproduct.values.indexOf('Beer') >= 0);
+    test.ok(dimproduct.values.indexOf('Coffee') >= 0);
+    test.ok(dimproduct.values.indexOf('Coke') >= 0);
 };
 
-exports['for each tuple'] = function (test) {
+exports['count tuples'] = function (test) {
     var count = 0;
+    var tuples = engine.tuples();
 
-    engine.forEachTuple(function (tuple) { count ++; });
+    while (tuples.next() != null)
+        count++;
+
     test.equal(count, 3);
 };
 
-exports['for each with filter'] = function (test) {
-    var count = 0;
-    engine.forEachTuple(function (tuple) { return tuple.country === 'Argentina'; }, function (tuple) { count ++; });
+exports['count with country filter'] = function (test) {
+    var count = engine.tuples().where({ country: 'Argentina' }).count();
     test.equal(count, 2);
 };
 
-exports['for each with tuple filter by example'] = function (test) {
-    var count = 0;
-    engine.forEachTuple({ country: 'Argentina' }, function (tuple) { count ++; });
-    test.equal(count, 2);
-
-    var count = 0;
-    engine.forEachTuple({ category: 'Beverages' }, function (tuple) { count ++; });
-    test.equal(count, 3);
-
-    var count = 0;
-    engine.forEachTuple({ country: 'Chile', category: 'Beverages' }, function (tuple) { count ++; });
-    test.equal(count, 1);
+exports['count with filters'] = function (test) {
+    test.equal(engine.tuples().where({ country: 'Argentina' }).count(), 2);
+    test.equal(engine.tuples().where({ category: 'Beverages' }).count(), 3);
+    test.equal(engine.tuples().where({ country: 'Chile', category: 'Beverages' }).count(), 1);
 };
 
