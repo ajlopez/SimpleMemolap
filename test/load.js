@@ -44,7 +44,7 @@ exports['generate 100000 tuples'] = function (test) {
     test.equal(engine.size(), 100000);
 };
 
-exports['generate 500000 tuples'] = function (test) {
+exports['generate and retrieve 500000 tuples'] = function (test) {
     var engine = generateTuples(100, 50, 100);
     test.equal(engine.size(), 500000);
 
@@ -60,6 +60,22 @@ exports['generate 500000 tuples'] = function (test) {
     test.ok(dimensions[2]);
     test.ok(dimensions[2].values);
     test.equal(dimensions[2].values.length, 101);
+    
+    var tuples = engine.tuples();
+    
+    var count = 0;
+    var ccount = 0;
+    var tuple;
+    
+    while ((tuple = tuples.next()) != null) {
+        count++;
+
+        if (tuple.array[tuple.offset] === 1)
+            ccount++;
+    }
+    
+    test.equal(count, 500000);
+    test.equal(ccount, 5000);
 };
 
 exports['count tuples'] = function (test) {
@@ -71,6 +87,19 @@ exports['count tuples'] = function (test) {
 exports['retrieve country 1 tuples'] = function (test) {
     var engine = generateTuples(100, 50, 100);
 
+    var tuples = engine.tuples();
+    var ccount = 0;
+    var tuple;
+    
+    while ((tuple = tuples.next()) != null) {
+        count++;
+
+        if (tuple.array[tuple.offset] === 1)
+            ccount++;
+    }
+    
+    test.equal(ccount, 5000);
+    
     var count = engine.tuples().where({ country: 'Country 1' }).count();
 
     test.equal(count, 5000);
