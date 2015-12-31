@@ -12,8 +12,19 @@ var dimproduct = dataset.dimension('product');
 var dimensions = dataset.dimensions();
 
 exports['add tuple'] = function (test) {
-    dataset.add({ country: 'Argentina', category: 'Beverages', product: 'Beer' });
+    dataset.add({ country: 'Argentina', category: 'Beverages', product: 'Beer', $data: 100 });
     test.equal(dataset.size(), 1);
+};
+
+exports['retrieve tuple'] = function (test) {
+    var row = { country: 'Argentina', category: 'Beverages', product: 'Beer', $data: 100 };
+    
+    var result = dataset.tuples().toArray();
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 1);
+    test.deepEqual(result[0], row);
 };
 
 exports['add another tuple'] = function (test) {
