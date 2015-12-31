@@ -1,5 +1,6 @@
 
 var sm = require('../');
+var sl = require('simplelists');
 
 var dataset = sm.dataset();
 
@@ -74,5 +75,15 @@ exports['count with filters'] = function (test) {
     test.equal(dataset.tuples().where({ country: 'Argentina' }).count(), 2);
     test.equal(dataset.tuples().where({ category: 'Beverages' }).count(), 3);
     test.equal(dataset.tuples().where({ country: 'Chile', category: 'Beverages' }).count(), 1);
+};
+
+exports['to array with filter'] = function (test) {
+    var result = dataset.tuples().where({ country: 'Argentina' }).toArray();
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 2);
+    
+    test.ok(sl.all(result, { country: 'Argentina' }));
 };
 

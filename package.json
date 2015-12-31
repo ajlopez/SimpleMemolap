@@ -1,17 +1,28 @@
-{ "name": "simplememolap"
-, "description": "Simple in-memory multidimensional OLAP-like library for JavaScript/Node.js"
-, "keywords": [ "memory", "olap", "molap", "javascript" ]
-, "version": "0.0.1"
-, "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)"
-, "repository": { "type": "git", "url": "git://github.com/ajlopez/SimpleMemolap.git" }
-, "main": "./lib/simplememolap.js"
-, "engines": { "node": ">= 0.10.0" }
-, "scripts": {
+{
+  "name": "simplememolap",
+  "description": "Simple in-memory multidimensional OLAP-like library for JavaScript/Node.js",
+  "keywords": [
+    "memory",
+    "olap",
+    "molap",
+    "javascript"
+  ],
+  "version": "0.0.1",
+  "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ajlopez/SimpleMemolap.git"
+  },
+  "main": "./lib/simplememolap.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
     "test": "simpleunit ./test -r"
-  }
-, "dependencies": {
-  }
-, "devDependencies": {
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "simplelists": "0.0.5",
     "simpleunit": "0.0.7"
   }
 }
