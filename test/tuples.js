@@ -1,29 +1,29 @@
 
 var sm = require('../');
 
-var engine = sm.engine();
+var dataset = sm.dataset();
 
 // Dimensions
 
-var dimcountry = engine.dimension('country');
-var dimcategory = engine.dimension('category');
-var dimproduct = engine.dimension('product');
+var dimcountry = dataset.dimension('country');
+var dimcategory = dataset.dimension('category');
+var dimproduct = dataset.dimension('product');
 
-var dimensions = engine.dimensions();
+var dimensions = dataset.dimensions();
 
 exports['add tuple'] = function (test) {
-    engine.add({ country: 'Argentina', category: 'Beverages', product: 'Beer' });
-    test.equal(engine.size(), 1);
+    dataset.add({ country: 'Argentina', category: 'Beverages', product: 'Beer' });
+    test.equal(dataset.size(), 1);
 };
 
 exports['add another tuple'] = function (test) {
-    var tuple = engine.add({ country: 'Argentina', category: 'Beverages', product: 'Coffee', data: 100 });
-    test.equal(engine.size(), 2);
+    var tuple = dataset.add({ country: 'Argentina', category: 'Beverages', product: 'Coffee', data: 100 });
+    test.equal(dataset.size(), 2);
 };
 
 exports['add third tuple'] = function (test) {
-    var tuple = engine.add({ country: 'Chile', category: 'Beverages', product: 'Coke', notadimension: 123 });
-    test.equal(engine.size(), 3);
+    var tuple = dataset.add({ country: 'Chile', category: 'Beverages', product: 'Coke', notadimension: 123 });
+    test.equal(dataset.size(), 3);
 };
 
 exports['dimensions values'] = function (test) {
@@ -46,7 +46,7 @@ exports['dimensions values'] = function (test) {
 
 exports['count tuples'] = function (test) {
     var count = 0;
-    var tuples = engine.tuples();
+    var tuples = dataset.tuples();
 
     while (tuples.next() != null)
         count++;
@@ -55,13 +55,13 @@ exports['count tuples'] = function (test) {
 };
 
 exports['count with country filter'] = function (test) {
-    var count = engine.tuples().where({ country: 'Argentina' }).count();
+    var count = dataset.tuples().where({ country: 'Argentina' }).count();
     test.equal(count, 2);
 };
 
 exports['count with filters'] = function (test) {
-    test.equal(engine.tuples().where({ country: 'Argentina' }).count(), 2);
-    test.equal(engine.tuples().where({ category: 'Beverages' }).count(), 3);
-    test.equal(engine.tuples().where({ country: 'Chile', category: 'Beverages' }).count(), 1);
+    test.equal(dataset.tuples().where({ country: 'Argentina' }).count(), 2);
+    test.equal(dataset.tuples().where({ category: 'Beverages' }).count(), 3);
+    test.equal(dataset.tuples().where({ country: 'Chile', category: 'Beverages' }).count(), 1);
 };
 

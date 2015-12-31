@@ -1,24 +1,24 @@
 
 var sm = require('../');
 
-var engine = sm.engine();
+var dataset = sm.dataset();
 
 // Dimensions
 
-var dimcountry = engine.dimension('country');
-var dimcategory = engine.dimension('category');
-var dimproduct = engine.dimension('product');
+var dimcountry = dataset.dimension('country');
+var dimcategory = dataset.dimension('category');
+var dimproduct = dataset.dimension('product');
 
-var dimensions = engine.dimensions();
+var dimensions = dataset.dimensions();
 
 function generateTuples(ncountries, ncategories, nproducts) {
-    var engine = sm.engine();
+    var dataset = sm.dataset();
 
     // Dimensions
 
-    engine.dimension('country');
-    engine.dimension('category');
-    engine.dimension('product');
+    dataset.dimension('country');
+    dataset.dimension('category');
+    dataset.dimension('product');
 
     for (var k = 1; k <= ncountries; k++) {
         var obj = { country: 'Country ' + k };
@@ -26,29 +26,29 @@ function generateTuples(ncountries, ncategories, nproducts) {
             obj.category = 'Category ' + j;
             for (var i = 1; i <= nproducts; i++) {
                 obj.product = 'Product ' + i;
-                engine.add(obj, 1);
+                dataset.add(obj, 1);
             }
         }
     }
 
-    return engine;
+    return dataset;
 }
 
 exports['generate 1000 tuples'] = function (test) {
-    var engine = generateTuples(10, 10, 10);
-    test.equal(engine.size(), 1000);
+    var dataset = generateTuples(10, 10, 10);
+    test.equal(dataset.size(), 1000);
 };
 
 exports['generate 100000 tuples'] = function (test) {
-    var engine = generateTuples(100, 10, 100);
-    test.equal(engine.size(), 100000);
+    var dataset = generateTuples(100, 10, 100);
+    test.equal(dataset.size(), 100000);
 };
 
 exports['generate and retrieve 500000 tuples'] = function (test) {
-    var engine = generateTuples(100, 50, 100);
-    test.equal(engine.size(), 500000);
+    var dataset = generateTuples(100, 50, 100);
+    test.equal(dataset.size(), 500000);
 
-    var dimensions = engine.dimensions();
+    var dimensions = dataset.dimensions();
 
     test.ok(dimensions);
     test.ok(dimensions[0]);
@@ -61,7 +61,7 @@ exports['generate and retrieve 500000 tuples'] = function (test) {
     test.ok(dimensions[2].values);
     test.equal(dimensions[2].values.length, 101);
     
-    var tuples = engine.tuples();
+    var tuples = dataset.tuples();
     
     var count = 0;
     var ccount = 0;
@@ -79,15 +79,15 @@ exports['generate and retrieve 500000 tuples'] = function (test) {
 };
 
 exports['count tuples'] = function (test) {
-    var engine = generateTuples(10, 10, 10);
+    var dataset = generateTuples(10, 10, 10);
 
-    test.equal(engine.tuples().count(), 1000);
+    test.equal(dataset.tuples().count(), 1000);
 };
 
 exports['retrieve country 1 tuples'] = function (test) {
-    var engine = generateTuples(100, 50, 100);
+    var dataset = generateTuples(100, 50, 100);
 
-    var tuples = engine.tuples();
+    var tuples = dataset.tuples();
     var ccount = 0;
     var tuple;
     
@@ -100,7 +100,7 @@ exports['retrieve country 1 tuples'] = function (test) {
     
     test.equal(ccount, 5000);
     
-    var count = engine.tuples().where({ country: 'Country 1' }).count();
+    var count = dataset.tuples().where({ country: 'Country 1' }).count();
 
     test.equal(count, 5000);
 };
