@@ -59,3 +59,24 @@ exports['sort by third and second dimension'] = function (test) {
     for (var k = 1; k < 1000; k++)
         test.ok(result[k - 1].product < result[k].product || result[k - 1].product == result[k].product && result[k - 1].category <= result[k].category);
 };
+
+exports['sort by third and second dimension and filter'] = function (test) {
+    var dataset = generateTuples(10, 10, 10);
+    
+    var result = dataset.tuples().sort(["product", "category"]).where({ category: 'Category 2' }).toArray();
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, 100);
+    
+    for (var k = 1; k < 100; k++)
+        test.ok(result[k - 1].product < result[k].product || result[k - 1].product == result[k].product && result[k - 1].category <= result[k].category);
+};
+
+exports['sort by third and second dimension and count'] = function (test) {
+    var dataset = generateTuples(10, 10, 10);
+    
+    var result = dataset.tuples().sort(["product", "category"]).count();
+    
+    test.equal(result, 1000);
+};
